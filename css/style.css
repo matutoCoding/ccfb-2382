@@ -1,0 +1,158 @@
+:root {
+  --bg: #14151a;
+  --bg2: #1c1e25;
+  --bg3: #23262f;
+  --line: #2e323d;
+  --fg: #e8e9ee;
+  --muted: #8b90a0;
+  --gold: #d4af37;
+  --gold2: #f0d060;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--bg); color: var(--fg);
+  font: 14px/1.5 "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+  display: flex; flex-direction: column; overflow: hidden;
+}
+button { font: inherit; cursor: pointer; }
+
+/* ---------- 顶栏 ---------- */
+#topbar {
+  display: flex; align-items: center; gap: 24px;
+  padding: 0 20px; height: 54px; flex: none;
+  background: var(--bg2); border-bottom: 1px solid var(--line);
+}
+.logo { font-size: 18px; font-weight: 700; color: var(--gold); letter-spacing: 1px; }
+.logo span { color: var(--muted); margin: 0 4px; }
+nav { display: flex; gap: 4px; flex: 1; }
+.nav-btn {
+  background: none; border: none; color: var(--muted);
+  padding: 8px 16px; border-radius: 8px; font-size: 14px;
+}
+.nav-btn:hover { color: var(--fg); background: var(--bg3); }
+.nav-btn.active { color: var(--gold2); background: var(--bg3); }
+.top-actions { display: flex; gap: 8px; }
+
+/* ---------- 按钮 / 输入 ---------- */
+.btn {
+  background: var(--bg3); color: var(--fg);
+  border: 1px solid var(--line); border-radius: 8px; padding: 8px 14px;
+}
+.btn:hover { border-color: var(--gold); }
+.btn.primary { background: var(--gold); border-color: var(--gold); color: #1a1a1a; font-weight: 600; }
+.btn.primary:hover { background: var(--gold2); }
+.btn.ghost { background: transparent; }
+.btn.small { padding: 4px 10px; font-size: 13px; }
+.btn:disabled { opacity: 0.4; cursor: default; }
+.input {
+  background: var(--bg3); color: var(--fg);
+  border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px;
+}
+.muted { color: var(--muted); }
+.gold { color: var(--gold2); }
+
+main { flex: 1; min-height: 0; }
+.page { display: none; height: 100%; overflow: auto; padding: 20px 24px; }
+.page.active { display: block; }
+#page-workbench { padding: 0; overflow: hidden; }
+.page-head { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+.page-head h2 { margin: 0; font-size: 20px; }
+
+/* ---------- 工作台 ---------- */
+.workbench { display: flex; height: 100%; }
+.viewport-col { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+#viewport-wrap { flex: 1; position: relative; min-height: 0; display: flex; }
+#viewport, #viewport-b { flex: 1; width: 100%; height: 100%; display: block; }
+#viewport-b.split-b { display: none; }
+#viewport-wrap.split #viewport-b.split-b { display: block; border-left: 2px solid var(--gold); }
+#viewport-wrap.split #viewport { width: 50%; }
+#viewport-wrap.split #viewport-b { width: 50%; }
+.caustics-status {
+  position: absolute; left: 12px; bottom: 10px; font-size: 12px;
+  color: var(--muted); pointer-events: none; text-shadow: 0 1px 2px #000;
+}
+.viewport-toolbar {
+  display: flex; gap: 8px; padding: 10px 14px;
+  background: var(--bg2); border-top: 1px solid var(--line);
+}
+.favorites-bar {
+  display: flex; gap: 8px; align-items: center; padding: 8px 14px;
+  background: var(--bg2); border-top: 1px solid var(--line); min-height: 42px;
+}
+#favorites-list { display: flex; gap: 8px; flex-wrap: wrap; }
+.fav-item {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--bg3); border: 1px solid var(--line);
+  border-radius: 999px; padding: 3px 6px 3px 12px; font-size: 13px;
+}
+.panel-col {
+  width: 340px; flex: none; overflow-y: auto;
+  background: var(--bg2); border-left: 1px solid var(--line);
+  display: flex; flex-direction: column;
+}
+.ctrl-section { border-bottom: 1px solid var(--line); }
+.ctrl-section summary {
+  padding: 12px 16px; cursor: pointer; font-weight: 600; user-select: none;
+}
+.ctrl-section summary:hover { color: var(--gold2); }
+.ctrl-body { padding: 0 16px 14px; display: flex; flex-direction: column; gap: 10px; }
+.ctrl-row { display: grid; grid-template-columns: 110px 1fr 44px; gap: 8px; align-items: center; }
+.ctrl-row label { color: var(--muted); font-size: 13px; }
+.ctrl-row input[type="range"] { width: 100%; accent-color: var(--gold); }
+.ctrl-row select { width: 100%; background: var(--bg3); color: var(--fg); border: 1px solid var(--line); border-radius: 6px; padding: 5px; }
+.ctrl-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--gold); justify-self: start; }
+.ctrl-val { font-size: 12px; color: var(--gold2); text-align: right; }
+.price-panel {
+  margin-top: auto; padding: 14px 16px;
+  border-top: 2px solid var(--gold); background: var(--bg3);
+}
+.price-row { display: flex; justify-content: space-between; padding: 3px 0; font-size: 13px; }
+.price-row span { color: var(--muted); }
+.price-row.total { border-top: 1px solid var(--line); margin-top: 6px; padding-top: 8px; font-size: 16px; }
+.price-row.total b { color: var(--gold2); }
+
+/* ---------- 款式库 ---------- */
+.styles-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px;
+}
+.style-card {
+  background: var(--bg2); border: 1px solid var(--line); border-radius: 12px;
+  padding: 12px; display: flex; flex-direction: column; gap: 8px;
+}
+.style-card img { width: 100%; border-radius: 8px; background: #17181c; }
+.style-name { font-weight: 600; }
+.style-cat { color: var(--muted); font-size: 12px; }
+
+/* ---------- 材质库 ---------- */
+.lib-cols { display: grid; grid-template-columns: 1fr 1.4fr; gap: 20px; }
+.lib-card { background: var(--bg2); border: 1px solid var(--line); border-radius: 12px; padding: 16px 20px; }
+.lib-card h3 { margin-top: 0; color: var(--gold2); }
+.table { width: 100%; border-collapse: collapse; }
+.table th, .table td { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--line); font-size: 13px; }
+.table th { color: var(--muted); font-weight: 500; }
+.swatch {
+  display: inline-block; width: 14px; height: 14px; border-radius: 50%;
+  margin-right: 8px; vertical-align: -2px; border: 1px solid #0006;
+}
+
+/* ---------- 出图 ---------- */
+.render-opts { display: flex; gap: 12px; align-items: center; }
+.render-opts label { display: flex; gap: 6px; align-items: center; color: var(--muted); }
+.render-results { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-top: 16px; }
+.render-card { background: var(--bg2); border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.render-card img { width: 100%; border-radius: 8px; }
+.render-cap { color: var(--muted); font-size: 13px; }
+.render-card .btn { text-align: center; text-decoration: none; }
+
+/* ---------- 订单 ---------- */
+.order-form { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+.order-form .input.wide { flex: 1; min-width: 200px; }
+.order-card {
+  display: flex; gap: 16px; align-items: center;
+  background: var(--bg2); border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px 18px; margin-bottom: 12px;
+}
+.order-card img { width: 96px; height: 96px; border-radius: 8px; flex: none; }
+.order-info { flex: 1; line-height: 1.7; }
+.order-ops { display: flex; flex-direction: column; gap: 6px; }

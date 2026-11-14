@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>璟 · 珠宝定制工作台</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="vendor/jspdf/jspdf.umd.min.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three/three.module.js",
+    "three/addons/": "./vendor/three/addons/"
+  }
+}
+</script>
+</head>
+<body>
+<header id="topbar">
+  <div class="logo">璟<span>·</span>珠宝定制</div>
+  <nav>
+    <button id="nav-styles" class="nav-btn">款式库</button>
+    <button id="nav-workbench" class="nav-btn">配置工作台</button>
+    <button id="nav-materials" class="nav-btn">材质宝石库</button>
+    <button id="nav-render" class="nav-btn">渲染出图</button>
+    <button id="nav-orders" class="nav-btn">订单</button>
+  </nav>
+  <div class="top-actions">
+    <button id="btn-undo" class="btn small" title="Ctrl+Z">↩ 撤销</button>
+    <button id="btn-redo" class="btn small" title="Ctrl+Y">↪ 重做</button>
+  </div>
+</header>
+
+<main>
+  <!-- 款式库 -->
+  <section id="page-styles" class="page">
+    <div class="page-head">
+      <h2>款式库</h2>
+      <select id="style-filter" class="input">
+        <option value="all">全部</option>
+        <option value="ring">戒指</option>
+        <option value="pendant">吊坠</option>
+        <option value="earring">耳饰</option>
+      </select>
+    </div>
+    <div id="styles-grid" class="styles-grid"></div>
+    <canvas id="thumb-canvas" width="480" height="360" style="position:absolute;left:-9999px;top:0"></canvas>
+  </section>
+
+  <!-- 配置工作台 -->
+  <section id="page-workbench" class="page">
+    <div class="workbench">
+      <div class="viewport-col">
+        <div id="viewport-wrap">
+          <canvas id="viewport"></canvas>
+          <canvas id="viewport-b" class="split-b"></canvas>
+          <div id="caustics-status" class="caustics-status"></div>
+        </div>
+        <div class="viewport-toolbar">
+          <button id="btn-compare" class="btn">分屏对比</button>
+          <button id="btn-sync-compare" class="btn ghost">同步到右侧</button>
+          <button id="btn-favorite" class="btn">☆ 收藏搭配</button>
+          <button id="btn-rebake" class="btn ghost" title="重新计算焦散">重算焦散</button>
+          <button id="btn-save-order" class="btn primary">存为订单</button>
+        </div>
+        <div class="favorites-bar">
+          <span class="muted">收藏:</span>
+          <div id="favorites-list"></div>
+        </div>
+      </div>
+      <aside class="panel-col">
+        <div id="workbench-controls"></div>
+        <div id="price-panel" class="price-panel"></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 材质宝石库 -->
+  <section id="page-materials" class="page">
+    <div class="page-head"><h2>材质宝石库</h2></div>
+    <div class="lib-cols">
+      <div class="lib-card">
+        <h3>贵金属(PBR)</h3>
+        <table id="metals-table" class="table">
+          <thead><tr><th>材质</th><th>密度</th><th>金价</th><th>默认 PBR</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="lib-card">
+        <h3>宝石(折射率 / 色散实测值)</h3>
+        <table id="gems-table" class="table">
+          <thead><tr><th>宝石</th><th>折射率</th><th>色散</th><th>密度</th><th>参考价</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 渲染出图 -->
+  <section id="page-render" class="page">
+    <div class="page-head">
+      <h2>渲染出图</h2>
+      <div class="render-opts">
+        <label>分辨率
+          <select id="render-size" class="input">
+            <option value="1024">1024</option>
+            <option value="2048" selected>2048</option>
+            <option value="4096">4096</option>
+          </select>
+        </label>
+        <label>背景
+          <select id="render-bg" class="input">
+            <option value="studio">场景(深灰)</option>
+            <option value="white">白底</option>
+          </select>
+        </label>
+        <button id="btn-render" class="btn primary">开始批量出图</button>
+        <button id="btn-pdf" class="btn">导出报价 PDF</button>
+      </div>
+    </div>
+    <p class="muted">出图与视口共用同一物理渲染管线(含焦散、辉光、景深),参数修改后两者必然一致。</p>
+    <div id="render-results" class="render-results"></div>
+  </section>
+
+  <!-- 订单 -->
+  <section id="page-orders" class="page">
+    <div class="page-head"><h2>订单</h2>
+      <button id="btn-export-csv" class="btn">导出全部 CSV</button>
+    </div>
+    <div class="order-form">
+      <input id="order-customer" class="input" placeholder="客户姓名">
+      <input id="order-phone" class="input" placeholder="联系电话">
+      <input id="order-note" class="input wide" placeholder="备注(刻字、工期等)">
+      <button id="btn-save-order2" class="btn primary">保存当前配置为订单</button>
+    </div>
+    <div id="orders-list"></div>
+  </section>
+</main>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
