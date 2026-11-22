@@ -1,0 +1,6 @@
+node_modules/
+dist/
+tests/shots/
+tests/*.bundle.mjs
+*.local
+.DS_Store
